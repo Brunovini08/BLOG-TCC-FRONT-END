@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
-import {Link, Navigate, redirect} from "react-router-dom";
-import authService from "../../../services/UserService.js";
-import {Alert, Input} from "@material-tailwind/react";
+import {Link} from "react-router-dom";
+
+import {Input} from "@material-tailwind/react";
 import {AuthContext} from "../../../contexts/auth.jsx";
 
 export default function Register() {
@@ -13,10 +13,8 @@ export default function Register() {
         password: ''
     })
 
-    const [sucess, setSucess] = useState(false)
-    const [user, setUser] = useState(null)
     const [error, setError] = useState("")
-    const {signUp, signed} = useContext(AuthContext)
+    const {signUp} = useContext(AuthContext)
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -37,32 +35,16 @@ export default function Register() {
                 email: form.email,
                 password: form.password
             }
-
-            try {
-                await signUp(data)
-                setSucess(true)
-
-            }catch (error) {
-                console.log(error)
-            }
+            await signUp(data)
+            window.location.href = "/login"
         }catch (error) {
             console.log(error)
         }
-        /*
-        try {
-            const register = await authService.register(data)
-            console.log("data", data)
-            setSucess(true)
-            setUser(register)
-        }catch (error) {
-            console.log(error)
-            alert("Erro ao efetuar cadastro")
-        }
-         */
+
     }
 
     return(
-        signed ? <Navigate to={"/"} /> : <div className="flex h-screen w-screen flex-col justify-center items-center px-6 py-12 lg:px-8 bg-neutral-50">
+         <div className="flex h-screen w-screen flex-col justify-center items-center px-6 py-12 lg:px-8 bg-neutral-50">
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-8 bg-gray-50 rounded-2xl shadow-2xl">
                     <h2 className="font-semibold text-indigo-600 flex justify-center w-full text-4xl mb-4">Blog Register</h2>
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -71,7 +53,7 @@ export default function Register() {
                                 <Input
                                     type="text"
                                     color="indigo"
-                                    label="Name"
+                                    label="Nome"
                                     className="pr-20"
                                     containerProps={{
                                         className: "min-w-[288px]",
@@ -114,7 +96,7 @@ export default function Register() {
                                 <Input
                                     type="password"
                                     color="indigo"
-                                    label="Password"
+                                    label="Senha"
                                     className="pr-20"
                                     containerProps={{
                                         className: "min-w-[288px]",
@@ -132,7 +114,7 @@ export default function Register() {
                         </div>
 
                         <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrar</button>
                         </div>
 
                         <div className="flex justify-center items-center">
