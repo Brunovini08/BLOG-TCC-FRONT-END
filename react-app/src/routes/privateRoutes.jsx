@@ -1,9 +1,9 @@
 import {useContext} from "react";
 import {AuthContext} from "../contexts/auth.jsx";
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
-export const PrivateRoutes = () => {
+export const PrivateRoutes = ({ children }) => {
     const {signed} = useContext(AuthContext)
     console.log(signed)
-    return signed ? <Outlet /> : <Navigate to="/login" />
+    return signed ? children : <Navigate to="/login" />
 }
