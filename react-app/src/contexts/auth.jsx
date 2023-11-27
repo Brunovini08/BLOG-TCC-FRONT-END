@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import {Navigate, useNavigate} from "react-router-dom";
 import authService from "../services/UserService/UserService.js";
-import axios from "axios";
+
 
 export const AuthContext = createContext()
 
@@ -23,7 +23,6 @@ export const AuthProvider = ({children}) => {
 
     const signIn = async ({ email, password }) => {
         try {
-
             const response = await authService.login({email, password})
 
             if (response.data.error) {
@@ -47,7 +46,8 @@ export const AuthProvider = ({children}) => {
             }
             setUser(response.data)
         }catch (error) {
-            console.log(error)
+            const { data } = error.response;
+            return data;
         }
     }
 

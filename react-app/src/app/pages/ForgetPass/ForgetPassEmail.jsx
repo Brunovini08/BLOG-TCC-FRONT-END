@@ -18,17 +18,25 @@ export const ForgetPassEmail = () => {
         if (!form.email){
             setError(<Alert className="pt-2" color="red">Preencha todos os campos</Alert>)
             return
+        } else if(!form.email.includes("@")) {
+            setError(<Alert className="pt-2" color="red">Email inválido</Alert>)
+            return
         }
         try {
             const data = {
                 email: form.email,
             }
 
-            await forgetPassEmail(data).then( () => {
-                setError(<Alert className="pt-2" color="green">Email enviado com sucesso</Alert>)
-                setTimeout(() => {
-                    window.location.href = "/login"
-                }, 4000)
+            await forgetPassEmail(data).then( (response) => {
+                if (response.error) {
+                    setError(<Alert className="pt-2" color="red">{response.error}</Alert>)
+                    return
+                } else {
+                    setError(<Alert className="pt-2" color="green">Email enviado com sucesso</Alert>)
+                    setTimeout(() => {
+                        window.location.href = "/login"
+                    }, 3000)
+                }
             })
 
         }catch (error) {
@@ -39,7 +47,7 @@ export const ForgetPassEmail = () => {
     return(
         signed ? <Navigate to={"/home"} /> :
             <div className="flex h-screen w-screen flex-col justify-center items-center px-6 py-12 lg:px-8 bg-neutral-50">
-                <div className="mt-10 w-[24%] p-8 bg-gray-50 rounded-2xl shadow-2xl ">
+                <div className="mt-10 w-[24%] p-8 bg-gray-50 rounded-2xl shadow-2xl lg:w-[45%]">
                     <h2 className="font-semibold text-indigo-600 flex justify-center w-full text-4xl mb-4">Esqueci minha senha</h2>
                     <form onSubmit={handleSubmit} className="space-y-6" >
                         <div>

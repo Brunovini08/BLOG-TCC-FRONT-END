@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 import {AuthContext} from "../../../contexts/auth.jsx";
 import {Alert, Input} from "@material-tailwind/react";
+import {toast, ToastContainer} from "react-toastify";
 
 
 export const Login = () => {
@@ -18,15 +19,25 @@ export const Login = () => {
 
         async function handleSubmit(e) {
             e.preventDefault()
-            const emptyValues = Object.values(form).some((value) => value === "") ? setError(<Alert className="pt-2" color="red">Preencha todos os campos</Alert>) : setError("")
-            const validEmail = form.email.toLowerCase().match(/[a-z]+@[a-z]+\.com(\.br)*/) ? setError("") : setError(<Alert className="flex items-center" color="red">Email inválido</Alert>)
+            const emptyValues = Object.values(form).some((value) => value === "") ? setError(<Alert className="mt-4" color="red">Preencha todos os campos</Alert>) : setError("")
+
             try {
                 const data = {
                     email: form.email,
                     password: form.password
                 }
 
-                    await signIn(data)
+                    await signIn(data).then((response) => {
+                        if(response.error) {
+                            setError(<Alert className="mt-4" color="red">{response.error}</Alert>)
+                            return
+                        } else {
+                            toast("Logado com sucesso")
+                            setTimeout(() => {
+                                window.location.href = "/"
+                            } , 2000)
+                        }
+                    })
 
                 setSucess(true)
 
@@ -38,6 +49,7 @@ export const Login = () => {
         return(
             signed ? <Navigate to={"/"} /> :
                 <div className="flex h-screen w-screen flex-col justify-center items-center px-6 py-12 lg:px-8 bg-neutral-50">
+                    <ToastContainer />
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-8 bg-gray-50 rounded-2xl shadow-2xl">
                         <h2 className="font-semibold text-indigo-600 flex justify-center w-full text-4xl mb-4">WebWiz Login</h2>
                         <form onSubmit={handleSubmit} className="space-y-6" >

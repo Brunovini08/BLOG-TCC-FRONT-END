@@ -1,8 +1,9 @@
 import {useContext, useState} from "react";
 import {Link} from "react-router-dom";
 
-import {Input} from "@material-tailwind/react";
+import {Alert, Input} from "@material-tailwind/react";
 import {AuthContext} from "../../../contexts/auth.jsx";
+import {toast} from "react-toastify";
 
 export default function Register() {
 
@@ -18,15 +19,16 @@ export default function Register() {
 
     async function handleSubmit(e) {
         e.preventDefault()
+
+        if(form.name === "" || form.email === "" || form.password === "") {
+            setError(<Alert className="mt-4" color="red">Preencha todos os campos</Alert>)
+            return
+        }
+
         const data = {
             name: form.name,
             email: form.email,
             password: form.password
-        }
-
-        if (!data.name || !data.email || !data.password) {
-            setError("Preencha todos os campos")
-            return
         }
 
         try {
@@ -35,8 +37,17 @@ export default function Register() {
                 email: form.email,
                 password: form.password
             }
-            await signUp(data)
-            window.location.href = "/login"
+            await signUp(data).then((response) => {
+                if(response.error) {
+                    setError(<Alert className="mt-4" color="red">{response.error}</Alert>)
+                    return
+                } else {
+                    toast("Registrado com sucesso")
+                    setTimeout(() => {
+                        window.location.href = "/login"
+                    } , 2000)
+                }
+            })
         }catch (error) {
             console.log(error)
         }

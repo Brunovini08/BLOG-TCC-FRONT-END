@@ -14,6 +14,7 @@ export const Settings = () => {
     const [name, setName] = useState("")
     const [biografy, setBiografy] = useState("")
     const [localization, setLocalization] = useState("")
+    const [sucess, setSucess] = useState("")
 
     const editButton =  () =>   {
         setIsFieldDisabled(false)
@@ -29,7 +30,10 @@ export const Settings = () => {
             const data = {name: name, biografy: biografy, image: image, localization: localization}
             await modUser(data)
             setIsFieldDisabled(true)
-            //window.location.href = `/profile/${JSON.parse(user).user?.id}`
+            setSucess("Alterações salvas com sucesso")
+            setTimeout(() => {
+                window.location.href = `/profile/${JSON.parse(user).user?.id}`
+            } , 2000)
         } catch (error) {
             console.log(error)
         }
@@ -49,8 +53,8 @@ export const Settings = () => {
         reader.readAsDataURL(e.target.files[0])
         try {
             reader.onload = () => {
-                const data = reader.result
-                setImage(data)
+                const imageBase = reader.result
+                setImage(imageBase)
             }
         }catch (error) {
             console.log(error)
@@ -83,19 +87,21 @@ export const Settings = () => {
         setImage(JSON.parse(user).user?.image)
     }, []);
 
+    console.log(image)
+
 
     return(
         <div className="">
             <NavBar />
             <div className="text-center">
                 <Typography color="indigo" variant="h4" className="mt-5 border border-b-indigo-600 pb-5">
-                    Profile
+                    Perfil
                 </Typography>
                 <div className="w-full flex justify-center h-full">
-                    <div className="w-1/3 shadow shadow-2xl p-20 flex flex-col rounded-xl ">
+                    <div className="w-1/3 shadow shadow-2xl p-20 flex flex-col rounded-xl lg:w-[50%]">
                         <ButtonEdit name="EDITAR" onClick={editButton}/>
                         <div className="">
-                            <Avatar className="w-24 h-24 -translate-y-12 bg-indigo-400" src={ JSON.parse(user).user?.image !== "" ? JSON.parse(user).user?.image : image}/>
+                            <Avatar className="w-24 h-24 -translate-y-12 bg-indigo-400" src={ image !== "" ? image : JSON.parse(user).user.image}/>
                         </div>
                         <div className="w-full flex flex-col justify-center items-center mb-2">
                             <label className="block">
@@ -132,8 +138,12 @@ export const Settings = () => {
                             <Input onChange={handleFieldLocalization} disabled={isFieldDisabled} value={localization}/>
                         </div>
                         {isFieldDisabled ? "" : <ComboButtons /> }
+                        <div className="mt-5">
+                            <Typography variant="h5" color="indigo">
+                                {sucess}
+                            </Typography>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -1,5 +1,4 @@
 import NavBar from "../../components/Navbar/NavBar.jsx";
-import {CardTest} from "../../components/CardTest/CardTest.jsx";
 import {postService} from "../../../services/PostService/postService.js";
 import {useEffect, useState} from "react";
 import {Typography} from "@material-tailwind/react";
@@ -21,9 +20,11 @@ function Home() {
 
 
   return (
-   <div className={` h-screen flex flex-col border border-black 2xl:max-w-[100%] bg-white p-0`}>
-       <NavBar />
-       <div className="absolute left-[33.4%] 2xl: top-[10%]">
+   <div className={`h-screen flex flex-col 2xl:max-w-[100%] bg-white`}>
+       <div className="z-10">
+           <NavBar />
+       </div>
+       <div className="absolute left-[33.4%] 2xl:top-[9%] z-0 xl:top-[6.5%] ">
            <Typography variant="h3">Posts({posts?.length})</Typography>
        </div>
        <CardDefault />

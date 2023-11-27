@@ -33,7 +33,7 @@ export default function NavBar() {
 
     const Buttons = () => {
         return(
-            <div className="flex flex-row w-80 items-center justify-evenly md:flex justify-start">
+            <div className="flex flex-row w-80 items-center justify-evenly lg: max-w-[29vw]">
                 <MenuItem name="Criar Post" link={`/createpost/${JSON.parse(authUser).user?._id}`}/>
                 <Profile />
             </div>
@@ -41,15 +41,17 @@ export default function NavBar() {
     }
 
     return(
-        <div className="w-full border-2 h-13 justify-center flex shadow drop-shadow lg:max-w-[100%] md:w-screen">
-            <nav className="flex justify-center items-center w-[50%] h-[60px] pb-3 pt-3  pr-10">
-                <div className="flex flex-row justify-between items-center w-full lg:max-w-[100%] md:w-full">
-                    <div className="flex relative gap-2 md:w-max items-center">
+        <div className="w-full border-2 h-13 justify-center flex shadow drop-shadow lg:max-w-[100]">
+            <nav className="flex items-center w-[100%] h-[60px] pb-3 pt-3 justify-center">
+                <div className="flex flex-row items-center w-full justify-evenly h-12">
+                    <div className="w-[23%] flex justify-center">
                         <Link to="/" className="text-2xl text-indigo-600">WebWiz</Link>
+                    </div>
+                    <div className="w-[23%] flex relative gap-2 md: items-center">
                         <Input
                             type="search"
                             color="indigo"
-                            label="Search."
+                            label="Pesquisar"
                             className=""
                             containerProps={{
                                 className: "min-w-[288px]",
@@ -57,37 +59,31 @@ export default function NavBar() {
                             onChange={searchPost}
                         />
 
-                        <Button
-                            size="sm"
-                            color="indigo"
-                            className="!absolute -right-[25%] top-1 rounded"
-                        >
-                            Search
-                        </Button>
+
                     </div>
+                           <ul className={`z-10 flex flex-col bg-white w-auto h-auto rounded-md ${!searchResult ? "hidden" : "fixed"} shadow-md top-[90%] 2xl:left-[38.5%] lg:left-[20%] xl:left-[29%]`}>
+                               {searchResult ? searchResult.map((item) => {
+                                   return(
+                                       <li key={item._id} className="flex flex-row justify-between items-center w-full h-10 px-2">
+                                           <Link to={`/post/${item._id}`} onClick={() => {
+                                               const time = setTimeout(() => {
+                                                   window.location.reload()
+                                               }, 500)
+                                           }}>
+                                               <div>
+                                                   <p className="text-sm text-gray-500">{item.title}</p>
+                                               </div>
+                                           </Link>
+                                       </li>
+                                   )
+                               }) : null}
+                           </ul>
 
-                   <ul className={`flex flex-col bg-white w-auto h-auto rounded-md ${!searchResult ? "hidden" : "absolute"} shadow-md top-[90%] left-[13%]`}>
-                           {searchResult ? searchResult.map((item) => {
-                               return(
-                           <li key={item._id} className="flex flex-row justify-between items-center w-full h-10 px-2">
-                               <Link to={`/post/${item._id}`} onClick={() => {
-                                   const time = setTimeout(() => {
-                                       window.location.reload()
-                                      }, 500)
-                               }}>
-                                   <div>
-                                       <p className="text-sm text-gray-500">{item.title}</p>
-                                   </div>
-                               </Link>
-                           </li>
-                               )
-                           }) : null}
-                   </ul>
-
-                    <ul className="grid grid-rows-1 grid-cols-3 w-1/4 items-center gap-2 h-13">
-                        {signed ?  <Buttons />  : <MenuItem name="Login" link="/login" />}
-                    </ul>
-
+                        <div className="w-[23%] flex h-12 justify-center">
+                           <ul className="flex ">
+                               {signed ?  <Buttons />  : <MenuItem name="Login" link="/login" />}
+                           </ul>
+                       </div>
                 </div>
         </nav>
     </div>

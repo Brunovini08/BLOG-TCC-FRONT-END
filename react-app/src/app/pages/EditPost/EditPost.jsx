@@ -4,44 +4,54 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import NavBar from "../../components/Navbar/NavBar.jsx";
 import {postService} from "../../../services/PostService/postService.js";
 import ReactQuill from "react-quill";
+import {ButtonDC} from "../../components/Buttons/ButtonDC.jsx";
 
 export function EditPost() {
 
     const {id} = useParams()
     const authUser = localStorage.getItem("@Auth:user")
-    const editor = useRef(null)
+    const [error, setError] = useState(null)
     const [post, setPost] = useState({
         content: '',
-        title: ''
+        title: '',
+        image: ''
     })
-
-    const [preview, setPreview] = useState(false)
+    const [isFieldDisabled, setIsFieldDisabled] = useState(true)
 
 
     const editPost = () => {
         postService.getPostById(id).then(response => {
             setPost(response.data)
         })
-        console.log(post)
     }
 
     const editPostSubmit = async (e) => {
         e.preventDefault()
+        if (post.content === '' || post.title === '' || post.base64 === '') {
+            setError("Preencha todos os campos")
+            return setTimeout(() => {
+                setError(null)
+            } , 3000)
+        }
         postService.modPost({data: {title: post.title, content: post.content, base64: post.image}, id: id}).then(response => {
             navigate(`/profile/${JSON.parse(authUser).user._id}`)
         })
     }
 
-    const previewPost = () => {
-        preview ? setPreview(false) : setPreview(true)
+    const cancelImage = () => {
+        setPost({...post, image: ''})
+        setIsFieldDisabled(false)
     }
+
+    console.log(post)
+
 
     const convertToBase64 = (e) => {
         const reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
         try {
             reader.onload = () => {
-                setPost({...post, base64: reader.result})
+                setPost({...post, image: reader.result})
             }
         }catch (error) {
             console.log(error)
@@ -53,10 +63,6 @@ export function EditPost() {
 
 
     const navigate = useNavigate()
-
-    const back = () => {
-        preview ? setPreview(false) : navigate(`/profile/${JSON.parse(authUser).user._id}`)
-    }
 
 
     const fieldChanged = (e) => {
@@ -72,12 +78,30 @@ export function EditPost() {
     return(
         <div className="w-full h-full flex flex-col justify-center items-center">
             <NavBar />
-            {console.log(post)}
-            {!preview ? <form className="w-2/3 h-2/3 p-10 shadow shadow-2xl rounded-xl drop-shadow-2xl">
+
+             <form className="w-2/3 h-2/3 p-10 shadow shadow-2xl rounded-xl drop-shadow-2xl">
                 <div>
+                    <div className="absolute left-[7%] top-[5%]">
+                        {isFieldDisabled && <ButtonDC color="red" onClick={cancelImage} name="CANCELAR"/>}
+                    </div>
                     <div className="flex flex-col items-center justify-center w-full mb-3 border border-black">
                         <img src={post.image} className="bg-cover bg-no-repeat w-full min-w-[48px] max-w-[95%] min-h-[48px] max-h-[100vh]"/>
-                        <input id="dropzone-file" type="file" className="mt-2" onChange={convertToBase64} accept="image/*"/>
+                        <label className="block">
+                            <span className="sr-only">Choose profile photo</span>
+                            <input type="file" className="block w-full text-sm text-slate-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-violet-50 file:text-violet-700
+                                hover:file:bg-indigo-400 hover:file:text-white
+                                transition file:ease-in-out file:duration-150
+                                file:cursor-pointer
+                                mb-3"
+                                   aria-description={"Choose profile photo"}
+                                   onChange={convertToBase64}
+                                   disabled={isFieldDisabled}
+                            />
+                        </label>
                     </div>
                     <div>
                         <Input variant="outlined" label="Title..." size="md" onChange={fieldChanged} value={post.title}/>
@@ -105,49 +129,10 @@ export function EditPost() {
                                 <Button color="red">CANCELAR</Button>
                             </Link>
                         </div>
-                        <div>
-                            <Button color="teal" onClick={previewPost}>PREVIEW</Button>
-                        </div>
+                        {error && <Typography color="red" variant="h5">{error}</Typography>}
                     </div>
                 </div>
-            </form> :  <div className="w-full h-full flex flex-col">
-                <Button className="absolute left-10 top-32 w-20 h-8 flex justify-center items-center" color="red" onClick={back}>
-                    VOLTAR
-                </Button>
-                <div className="w-full h-auto flex justify-center items-center bg-indigo-400">
-                    <div className="w-2/3 h-96 flex justify-center items-center flex-col gap-2">
-                        <div>
-                            <Typography variant="h3" color="white">
-                                {post?.title}
-                            </Typography>
-                        </div>
-                        <div className="flex w-4/12 pl-5 gap-2">
-                            <div>
-                                <Link to={`/profile/${JSON.parse(authUser).user._id}`}>
-                                    <Avatar src={JSON.parse(authUser).user.image} className="bg-white"/>
-                                </Link>
-                            </div>
-                            <div className="flex justify-center flex-col">
-                                <Typography variant="h6" color="white">
-                                    <div className="flex flex-row w-48 gap-2">
-                                        Escrito por:
-                                        <Typography className=" hover:underline decoration-1">
-                                            <Link to={`/profile/${JSON.parse(authUser).user._id}`}>{JSON.parse(authUser).user.name}</Link>
-                                        </Typography>
-                                    </div>
-                                    em: {new Date().toLocaleDateString()}
-                                </Typography>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full h-full  justify-center items-center flex">
-                    <div className="w-1/2 h-auto flex justify-center p-4 items-center flex-col"
-                         dangerouslySetInnerHTML={{__html: post?.content}}
-                    />
-                </div>
-            </div>}
-
+            </form>
         </div>
     )
 }

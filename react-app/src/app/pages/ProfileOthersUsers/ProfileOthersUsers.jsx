@@ -8,7 +8,7 @@ export const ProfileOthersUsers = () => {
 
     return(
 
-        <div className="w-screen h-screen flex bg-gray-200 flex-col" >
+        <div className="fixed w-full flex bg-gray-200 flex-col" >
             <NavBar />
             <User />
         </div>
