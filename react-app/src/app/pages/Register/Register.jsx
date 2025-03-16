@@ -15,7 +15,7 @@ export default function Register() {
     })
 
     const [error, setError] = useState("")
-    const {signUp} = useContext(AuthContext)
+    const {signUp, signIn} = useContext(AuthContext)
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -37,15 +37,13 @@ export default function Register() {
                 email: form.email,
                 password: form.password
             }
-            await signUp(data).then((response) => {
+            await signUp(data).then(async (response) => {
                 if(response.error) {
                     setError(<Alert className="mt-4" color="red">{response.error}</Alert>)
                     return
                 } else {
                     toast("Registrado com sucesso")
-                    setTimeout(() => {
-                        window.location.href = "/login"
-                    } , 2000)
+                    await signIn({email: form.email, password: form.password})
                 }
             })
         }catch (error) {

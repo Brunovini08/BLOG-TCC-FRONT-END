@@ -32,10 +32,7 @@ export const Login = () => {
                             setError(<Alert className="mt-4" color="red">{response.error}</Alert>)
                             return
                         } else {
-                            toast("Logado com sucesso")
-                            setTimeout(() => {
-                                window.location.href = "/"
-                            } , 2000)
+                            toast.info("Logado com sucesso")
                         }
                     })
 

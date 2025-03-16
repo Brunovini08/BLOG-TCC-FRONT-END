@@ -1,6 +1,6 @@
 import {CardPostProfileAuthUser} from "../CardPostProfileAuthUser/CardPostProfileAuthUser.jsx";
 import {Avatar, Typography} from "@material-tailwind/react";
-import azulIndigo from "../../../../public/azul-indigo.jpg";
+
 export const AuthUser = () => {
 
     const user = localStorage.getItem("@Auth:user")
@@ -9,7 +9,7 @@ export const AuthUser = () => {
         <div className="w-full h-screen flex flex-col items-center pt-10 bg-gray-200 z-0">
             <div className="w-3/5 h-60 bg-white shadow drop-shadow-2xl mt-2 flex items-center flex-col rounded-xl px-2 z-0">
                 <div className=" w-full h-60 flex pb-4 justify-center items-center text-center pt-2 flex-col z-0">
-                        <Avatar className={`w-24 h-24 -translate-y-12 bg-indigo-400 bg-center`} src={JSON.parse(user).user?.image === "" ? azulIndigo : JSON.parse(user).user?.image}/>
+                        <Avatar className={`w-24 h-24 -translate-y-12 bg-indigo-400 bg-center`} src={JSON.parse(user).user?.image === "" ? "" : JSON.parse(user).user?.image}/>
                     <div className="w-auto">
                        <Typography variant="h4">
                            {JSON.parse(user).user?.name}
