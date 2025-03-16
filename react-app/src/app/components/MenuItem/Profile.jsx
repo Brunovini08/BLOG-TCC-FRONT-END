@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "../../../contexts/auth.jsx";
 import {Avatar} from "@material-tailwind/react";
-import azulIndigo from "../../../../public/azul-indigo.jpg"
 
 export default function Profile(props) {
 
@@ -25,7 +24,7 @@ export default function Profile(props) {
                                 <Avatar
                                     className="bg-indigo-400"
                                     size="regular"
-                                    src={JSON.parse(authUser).user?.image === "" ? azulIndigo : JSON.parse(authUser).user?.image}
+                                    src={JSON.parse(authUser).user?.image === "" ? "" : JSON.parse(authUser).user?.image}
                                 />
                         </Menu.Button>
                     </div>
@@ -42,7 +41,7 @@ export default function Profile(props) {
                                 {({ active }) => (
                                     <Link
                                         to={`/profile/${JSON.parse(authUser).user?._id}`}
-                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-indigo-500 hover:')}
+                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-gray-600 hover:')}
                                     >
                                         Meu perfil
                                     </Link>
@@ -53,18 +52,19 @@ export default function Profile(props) {
                                 {({ active }) => (
                                     <Link
                                         to={`/settings/${JSON.parse(authUser).user?._id}`}
-                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-indigo-500')}
+                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-gray-600')}
                                     >
                                         <button type="submit">Configurações</button>
                                     </Link>
                                 )}
 
                             </Menu.Item>
+                            
                             <Menu.Item>
                                 {({ active }) => (
                                     <Link
                                         to="/"
-                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-indigo-500')}
+                                        className={(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 underline-offset-1 hover:text-gray-600')}
                                     >
                                         <button onClick={handleSignout} type="submit">Sair</button>
                                     </Link>

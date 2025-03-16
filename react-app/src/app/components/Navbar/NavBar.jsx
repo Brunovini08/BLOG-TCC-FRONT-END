@@ -24,7 +24,7 @@ export default function NavBar() {
             return
         }
         try {
-            const result = await postService.getPostTitle(value).then((res) => setSearchResult(res.data))
+            return await postService.getPostTitle(value).then((res) => setSearchResult(res.data))
         } catch (error) {
             console.log(error)
         }
@@ -33,41 +33,40 @@ export default function NavBar() {
 
     const Buttons = () => {
         return (
-            <div className="flex flex-row w-80 items-center justify-evenly lg: max-w-[29vw]">
-                <MenuItem name="Novo Post" link={`/createpost/${JSON.parse(authUser).user?._id}`} />
+            <div className="flex flex-row w-80 items-center lg:justify-evenly lg:max-w-[29vw] sm:max-w-[27vw] sm:justify-between ">
+                <MenuItem name="Novo Post" className="w-[110px] flex items-center h-12" link={`/createpost/${JSON.parse(authUser).user?._id}`} />
                 <Profile />
             </div>
         )
     }
 
     return (
-        <div className="w-full border-2 h-13 justify-center flex shadow drop-shadow lg:max-w-[100]">
-            <nav className="flex items-center w-[100%] h-[60px] pb-3 pt-3 justify-center">
-                <div className="flex flex-row items-center w-full justify-evenly h-12">
-                    <div className="w-[23%] flex justify-center">
-                        <Link to="/" className="text-2xl font-bold">DevNotes</Link>
-                    </div>
-                    <div className="w-[23%] flex relative gap-2 md: items-center">
+        <div className="flex flex-row container w-full mx-auto">
+            <nav className="flex flex-row container w-full h-16 items-center">
+                <div className="flex flex-row w-full h-16 items-center justify-between ">  
+                    <div className="flex h-12 items-center justify-evenly w-[77%]">
+                       <div>
+                       <Link to="/" className="text-2xl font-bold sm:text-sm">DevNotes</Link>
+                       </div>
+                        <div className="border-none">
                         <Input
                             type="search"
                             color="black"
                             label="Pesquisar"
-                            className=""
+                            size="md"
                             containerProps={{
-                                className: "min-w-[288px]",
+                                className: "",
                             }}
                             onChange={searchPost}
-                        />
-
-
+                        />  
+                        </div>
                     </div>
-                    <ul className={`z-10 flex flex-col bg-white w-auto h-auto rounded-md ${!searchResult ? "hidden" : "fixed"} shadow-md top-[90%] 2xl:left-[38.5%] lg:left-[20%] xl:left-[29%]`}>
-                        {searchResult ? searchResult.map((item) => {
+                    
+                    <ul className={`z-10 flex flex-col bg-white w-auto h-auto rounded-md ${!searchResult ? "hidden" : "fixed"} shadow-md top-[9%] left-[42%]`}>
+                    {searchResult.length > 0 ? searchResult.map((item) => {
                             return (
                                 <li key={item._id} className="flex flex-row justify-between items-center w-full h-10 px-2">
-                                    <Link to={`/post/${item._id}`} onClick={() => {
-                                        window.location.reload()
-                                    }}>
+                                    <Link to={`/post/${item._id}`}>
                                         <div>
                                             <p className="text-sm text-gray-500">{item.title}</p>
                                         </div>

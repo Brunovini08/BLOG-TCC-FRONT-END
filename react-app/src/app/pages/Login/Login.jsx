@@ -48,13 +48,13 @@ export const Login = () => {
                 <div className="flex h-screen w-screen flex-col justify-center items-center px-6 py-12 lg:px-8 bg-neutral-50">
                     <ToastContainer />
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-8 bg-gray-50 rounded-2xl shadow-2xl">
-                        <h2 className="font-semibold text-indigo-600 flex justify-center w-full text-4xl mb-4">WebWiz Login</h2>
+                        <h2 className="font-semibold text-black flex justify-center w-full text-4xl mb-4">DevNotes</h2>
                         <form onSubmit={handleSubmit} className="space-y-6" >
                             <div>
                                 <div className="mt-2">
                                     <Input
                                         type="text"
-                                        color="indigo"
+                                        color="black"
                                         label="E-mail"
                                         className="pr-20"
                                         containerProps={{
@@ -74,13 +74,13 @@ export const Login = () => {
                             <div>
                                 <div className="flex items-center justify-end">
                                     <div className="text-sm">
-                                        <Link to="/forgetpasswordemail" className="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu sua senha?</Link>
+                                        <Link to="/forgetpasswordemail" className="font-semibold text-black hover:text-gray-600">Esqueceu sua senha?</Link>
                                     </div>
                                 </div>
                                 <div className="mt-2">
                                     <Input
                                         type="password"
-                                        color="indigo"
+                                        color="black"
                                         label="Senha"
                                         className="pr-20"
                                         containerProps={{
@@ -99,10 +99,10 @@ export const Login = () => {
                             </div>
 
                             <div>
-                                <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Logar</button>
+                                <button type="submit" className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Logar</button>
                             </div>
                             <div className="flex justify-center items-center">
-                                <Link to="/register" className="font-semibold text-indigo-600 hover: text-indigo-500 hover:text-indigo-500">Não tem uma conta? <b>Registre-se</b></Link>
+                                <Link to="/register" className="font-semibold text-black hover:text-gray-600">Não tem uma conta? <b>Registre-se</b></Link>
                             </div>
                         </form>
 

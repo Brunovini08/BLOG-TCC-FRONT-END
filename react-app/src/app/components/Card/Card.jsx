@@ -51,10 +51,10 @@ export function CardDefault() {
     }, []);
 
     return (
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-10 grid grid-cols-auto md:grid-cols-2 lg:grid-cols-3 w-[100%]">
             {posts?.map((post) => (
-                <div className={`flex justify-center`} key={post._id}>
-                    <Card key={post._id} shadow={false} className={`mb-7 mt-7 w-[90%] pt-1`}>
+                <div className={``} key={post._id}>
+                    <Card key={post._id} shadow={false} className={``}>
                         <div className="pb-7 flex items-center gap-2 ml-4">
                             <Menu as="div" className="relative ml-3">
                                 <div>

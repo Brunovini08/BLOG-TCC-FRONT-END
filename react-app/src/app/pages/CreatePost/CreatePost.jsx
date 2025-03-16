@@ -82,9 +82,9 @@ export function CreatePost() {
     return (
         <div className="w-full h-full flex flex-col justify-center items-center">
             <NavBar />
-            <form className="w-[40%] h-2/3 p-10 " onSubmit={contentFieldChange}>
+            <form className="w-[40%] h-2/3 p-10 sm:w-[100%]" onSubmit={contentFieldChange}>
                 <div>
-                    <div className="flex justify-between w-full">
+                    <div className="flex justify-between w-full sm:p-4">
                         <div className="flex items-end pb-1 font-bold "> 
                             <Typography className="text-center" variant="h4">Criar novo Post</Typography>
                         </div>
@@ -104,7 +104,7 @@ export function CreatePost() {
                                 file:rounded-full file:border-0
                                 file:text-sm file:font-semibold
                                 file:bg-violet-50 file:text-violet-700
-                                hover:file:bg-indigo-400 hover:file:text-white
+                                hover:file:bg-gray-400 hover:file:text-white
                                 transition file:ease-in-out file:duration-150
                                 file:cursor-pointer
                                 mb-3"
